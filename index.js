@@ -1,4 +1,9 @@
-import { querySelect, querySelectAll, createElem } from "./utils.js";
+import {
+  querySelect,
+  querySelectAll,
+  createElem,
+  createError,
+} from "./utils.js";
 
 const cvc = querySelectAll(".security-number");
 const cardNum = querySelectAll(".card-number");
@@ -45,25 +50,15 @@ const cardNumChange = () => {
       elem.innerText = "";
     }
 
-    elem.innerText = ` ${cardNumInput.value.slice(
-      0,
-      4
-    )} ${cardNumInput.value.slice(4, 8)} ${cardNumInput.value.slice(
-      8,
-      12
-    )} ${cardNumInput.value.slice(12, 16)} `;
+    const numberOnCard = (elem.innerText = `${cardNumInput.value.slice(0, 4)} ${cardNumInput.value.slice(4, 8)} ${cardNumInput.value.slice(8, 12)} ${cardNumInput.value.slice(12, 16)}`);
   });
 };
 
 const cardNumCheck = (event) => {
-  let key = window.event ? event.which : event.keyCode;
+  const key = window.event ? event.which : event.keyCode;
   if (key < 48 || key > 57) {
-    const span = createElem("span");
-    span.textContent = "Wrong format, numbers only";
-    span.classList.add("error-msg");
-    cardNumInput.parentElement.append(span);
-    cardNumInput.classList.add("error");
-    return false;
+    const errMsg = "Wrong format, numbers only";
+    createError(errMsg, cardNumInput);
   }
   return true;
 };
@@ -71,21 +66,16 @@ const cardNumCheck = (event) => {
 const cvcCheck = () => {
   if (cvcInput.value !== "") {
     if (cvcInput.value.length < 3) {
-      const span = createElem("span");
-      span.textContent = "CVC code is too short";
-      span.classList.add("error-msg");
-      cvcInput.parentElement.append(span);
-      cvcInput.classList.add("error");
+      const errMsg = "CVC code is too short";
+      createError(errMsg, cvcInput);
       return false;
     }
     return true;
   } else {
     if (cvcInput.value === "") {
-      const span = createElem("span");
-      span.textContent = "Can't be blank";
-      span.classList.add("error-msg");
-      cvcInput.parentElement.append(span);
-      cvcInput.classList.add("error");
+      const errMsg = "Can't be blank";
+      createError(errMsg, cvcInput);
+      return false;
     }
     return false;
   }
@@ -100,7 +90,6 @@ const dateCheck = () => {
       span.textContent = "Can't be blank";
       span.classList.add("error-msg");
       expYearInput.parentElement.parentElement.append(span);
-      console.log(span);
 
       if (expYearInput.value === "" && expMonthInput.value === "") {
         expYearInput.classList.add("error");

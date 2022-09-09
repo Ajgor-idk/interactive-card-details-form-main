@@ -1,13 +1,9 @@
 @import "/css/reset.css";
 @import "/css/variables.css";
 
-/* Mobile 375px Desktop 1440px */
-
 body {
   box-sizing: content-box;
-  font-family: var(--Font-Family);
-  font-weight: var(--Font-Weight);
-  font-size: var(--Font-Size);
+  font: var(--Font-Weight) var(--Font-Size)/1 var(--Font-Family);
   height: 100vh;
 }
 
@@ -205,7 +201,6 @@ form,
   height: 1rem;
   font-size: 0.75rem;
   text-align: center;
-  width: 100%;
   color: var(--Very-dark-violet);
   bottom: 0;
 }
